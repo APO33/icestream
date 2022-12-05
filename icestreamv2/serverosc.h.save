@@ -1,0 +1,59 @@
+#ifndef SERVEROSC_H
+#define SERVEROSC_H
+
+//#include <QMainWindow>
+#include <QObject>
+//#include <QWidget>
+#include <QApplication>
+#include <stdio.h>
+#include <stdlib.h>
+#ifndef WIN32
+# include <unistd.h>
+#endif
+#include "lo/lo.h"
+#include <QOsc>
+
+class serverosc
+{
+public:
+    serverosc();
+    ~serverosc();
+    static void setAddress(const char* add);
+    static const char* getAddress();
+    static void setPort(const char* portIn);
+    static const char* getPort();
+    static void setData(float datas);
+    static float getData();
+    //static void setMsg();
+    //static QByteArray* getMsg();
+
+private:
+    static int done;
+    static const char* port;
+    static const char* address;
+    static const char* receivedData;
+    static float readData;
+    //static QByteArray* message;
+    lo_server_thread st;
+
+
+    static void error(int num, const char *m, const char *path);
+
+    static int generic_handler(const char *path, const char *types, lo_arg ** argv,
+                        int argc, void *data, void *user_data);
+
+    //static int foo_handler(const char *path, const char *types, lo_arg ** argv,
+                   // int argc, void *data, void *user_data);
+
+    static int blobtest_handler(const char *path, const char *types, lo_arg ** argv,
+                         int argc, void *data, void *user_data);
+
+    static int quit_handler(const char *path, const char *types, lo_arg ** argv,
+                     int argc, void *data, void *user_data);
+
+
+
+
+};
+
+#endif // SERVEROSC_H
